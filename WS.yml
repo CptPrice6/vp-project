@@ -3,9 +3,10 @@
   hosts: webserver
   become: yes
   vars:
+    database_host: "{{ lookup('file', 'db_ip') | trim }}"
     # Define .env file content
     env_file_content: |
-      DATABASE_HOST=localhost
+      DATABASE_HOST={{ database_host }}
       DATABASE_USER=hospitaluser
       DATABASE_PASSWORD=password123
       DATABASE_NAME=hospitaldb
@@ -30,11 +31,13 @@
       apt_key:
         url: https://download.docker.com/linux/debian/gpg
         state: present
+        keyring: /usr/share/keyrings/docker-archive-keyring.gpg
  
     - name: Set up Docker stable repository
       apt_repository:
-        repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian {{ ansible_lsb.codename }} stable"
+        repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian {{ ansible_facts['lsb']['codename'] }} stable"
         state: present
+        filename: "docker.list"
  
     - name: Update apt package list again
       apt:
