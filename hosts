@@ -1,3 +1,7 @@
 [webserver]
-10.0.1.95 ansible_become_password=222
+ip ansible_become_password=222
+[db]
+ip ansible_become_password=222
+[client]
+ip ansible_become_password=222
 
