@@ -4,4 +4,3 @@ ip ansible_become_password=222
 ip ansible_become_password=222
 [client]
 ip ansible_become_password=222
-
