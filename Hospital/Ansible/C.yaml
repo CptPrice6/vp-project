@@ -1,0 +1,45 @@
+---
+  - name: Configuring client vm
+    hosts: client
+    become: true
+    vars:
+      webserver_host: "{{ lookup('file', 'ws_ip') | trim }}"
+  
+    tasks:
+      - name: Updating packages
+        apt:
+          update_cache: yes
+          upgrade: dist
+  
+      - name: Installing chromium
+        apt:
+          name: chromium
+          state: latest
+          update_cache: yes
+  
+      - name: Creating a user
+        user:
+          name: klientas
+          password: "{{ 'klientas123' | password_hash('sha512') }}"
+          shell: /bin/bash
+          state: present
+          create_home: yes
+  
+      - name: Adding the user to sudo group
+        user:
+          name: klientas
+          groups: sudo
+          append: yes
+  
+      - name: Testing connection to hospitals webserver
+        uri:
+          url: "http://{{ webserver_host }}:3000"
+          return_content: yes
+        register: web_response
+        until: web_response.status == 200
+        retries: 5
+        delay: 10
+  
+      - name: Displaying response from the website
+        debug:
+          var: web_response
