@@ -178,23 +178,36 @@
             SELECT pg_catalog.setval('public.doctors_id_seq', 5, true);
             SELECT pg_catalog.setval('public.patients_id_seq', 16, true);
 
+      - name: Pull PostgreSQL Docker image with retry logic
+        docker_image:
+          name: postgres:latest
+          source: pull
+        register: docker_pull
+        retries: 3
+        delay: 10
+        until: docker_pull.failed == false
+
       - name: Run PostgreSQL Docker container
         docker_container:
-          name: my-postgres
+          name: postgres-container
           image: postgres
+          state: started
+          restart_policy: always
           env_file: "{{ postgres_env_file }}"
           ports:
             - "{{ postgres_port }}:5432"
           volumes:
             - "{{ init_sql_file }}:/docker-entrypoint-initdb.d/init.sql"
-          state: started
         retries: 3
         delay: 10
-        when: docker_pull is succeeded
+        until: docker_pull.failed == false
 
       - name: Verify PostgreSQL container is running
-        shell: docker ps --filter "name=my-postgres" --format "{{ '{{.Names}}' }}"
-        register: running_containers
+        shell: docker ps --filter "name=postgres-container" --format "{{ '{{.Names}}' }}"
+        register: result
+        retries: 3
+        delay: 10
+        until: result.stdout != ""
 
       - name: Debug PostgreSQL container name
         debug:
