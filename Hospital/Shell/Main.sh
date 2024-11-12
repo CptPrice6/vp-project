@@ -68,8 +68,8 @@ printf "[client]\n$CLIENT_USER@$CLIENT_IP ansible_become_password=222\n\n" >> ..
 sshpass -p "$SUDO_PASS" ssh-copy-id -o StrictHostKeyChecking=no "$CLIENT_USER@$CLIENT_IP"
 
 
-ansible-playbook -i ../Misc/hosts ../Ansible/DB.yaml -K 
-ansible-playbook -i ../Misc/hosts ../Ansible/WS.yaml -K 
-ansible-playbook -i ../Misc/hosts ../Ansible/C.yaml -K 
+ansible-playbook -i ../Misc/hosts ../Ansible/DB.yaml 
+ansible-playbook -i ../Misc/hosts ../Ansible/WS.yaml 
+ansible-playbook -i ../Misc/hosts ../Ansible/C.yaml 
 
 exit 0
