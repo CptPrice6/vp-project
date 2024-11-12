@@ -99,9 +99,9 @@ rm -f "$tmp_file"
 
 echo "Rebooting the web vm for dynamic external port assignment"
 ONE_XMLRPC="$ENDPOINT" onevm poweroff "$WEBVM_ID" --user "$WEB_USER" --password "$WEB_PASS"
-sleep 15
+sleep 30
 ONE_XMLRPC="$ENDPOINT" onevm resume "$WEBVM_ID" --user "$WEB_USER" --password "$WEB_PASS"
-sleep 25
+sleep 30
 
 onevm show "$WEBVM_ID" --user "$WEB_USER" --password "$WEB_PASS" --endpoint "$ENDPOINT" > "$WEBVM_ID.txt"
 TCP_PORT_FORWARDING=$(grep TCP_PORT_FORWARDING "$WEBVM_ID.txt" | cut -d '=' -f 2 | tr -d '"')
