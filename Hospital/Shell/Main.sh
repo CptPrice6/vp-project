@@ -35,12 +35,11 @@ sleep 50
 
 onevm show "$DBVM_ID" --user "$DB_USER" --password "$DB_PASS" --endpoint "$ENDPOINT" > "$DBVM_ID.txt"
 DB_IP=$(grep PRIVATE_IP "$DBVM_ID.txt" | cut -d '=' -f 2 | tr -d '"')
-DB_PUBLIC_IP=$(grep PUBLIC_IP "$DBVM_ID.txt" | cut -d '=' -f 2 | tr -d '"')
 rm "$DBVM_ID.txt"
 printf "[db]\n$DB_USER@$DB_IP ansible_become_password=222\n\n" >> ../Misc/hosts
 sshpass -p "$SUDO_PASS" ssh-copy-id -o StrictHostKeyChecking=no "$DB_USER@$DB_IP"
 
-echo "localhost" > ../Misc/db_ip
+echo "$DB_IP" > ../Misc/db_ip
 
 
 WEB_REZ=$(onetemplate instantiate "$CLIENT_TEMPLATE" --name "webserver-vm" --user "$WEB_USER" --password "$WEB_PASS" --endpoint "$ENDPOINT")
@@ -50,12 +49,11 @@ sleep 50
 
 onevm show "$WEBVM_ID" --user "$WEB_USER" --password "$WEB_PASS" --endpoint "$ENDPOINT" > "$WEBVM_ID.txt"
 WEB_IP=$(grep PRIVATE_IP "$WEBVM_ID.txt" | cut -d '=' -f 2 | tr -d '"')
-WEB_PUBLIC_IP=$(grep PUBLIC_IP "$WEBVM_ID.txt" | cut -d '=' -f 2 | tr -d '"')
 rm "$WEBVM_ID.txt"
 printf "[webserver]\n$WEB_USER@$WEB_IP ansible_become_password=222\n\n" >> "../Misc/hosts"
 sshpass -p "$SUDO_PASS" ssh-copy-id -o StrictHostKeyChecking=no "$WEB_USER@$WEB_IP"
 
-echo "localhost" > ../Misc/ws_ip
+echo "$WEB_IP" > ../Misc/ws_ip
 
 
 CLIENT_REZ=$(onetemplate instantiate "$CLIENT_TEMPLATE" --name "client-vm" --user "$CLIENT_USER" --password "$CLIENT_PASS" --endpoint "$ENDPOINT")
@@ -65,14 +63,13 @@ sleep 50
 
 onevm show "$CLIENTVM_ID" --user "$CLIENT_USER" --password "$CLIENT_PASS" --endpoint "$ENDPOINT" > "$CLIENTVM_ID.txt"
 CLIENT_IP=$(grep PRIVATE_IP "$CLIENTVM_ID.txt" | cut -d '=' -f 2 | tr -d '"')
-CLIENT_PUBLIC_IP=$(grep PUBLIC_IP "$CLIENTVM_ID.txt" | cut -d '=' -f 2 | tr -d '"')
 rm "$CLIENTVM_ID.txt"
 printf "[client]\n$CLIENT_USER@$CLIENT_IP ansible_become_password=222\n\n" >> ../Misc/hosts
 sshpass -p "$SUDO_PASS" ssh-copy-id -o StrictHostKeyChecking=no "$CLIENT_USER@$CLIENT_IP"
 
 
-ansible-playbook -i ../Misc/hosts ../Ansible/DB.yaml -K --ask-vault-pass
-ansible-playbook -i ../Misc/hosts ../Ansible/WS.yaml -K --ask-vault-pass
-ansible-playbook -i ../Misc/hosts ../Ansible/C.yaml -K --ask-vault-pass
+ansible-playbook -i ../Misc/hosts ../Ansible/DB.yaml -K 
+ansible-playbook -i ../Misc/hosts ../Ansible/WS.yaml -K 
+ansible-playbook -i ../Misc/hosts ../Ansible/C.yaml -K 
 
 exit 0
