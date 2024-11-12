@@ -112,8 +112,9 @@ ansible-playbook -i ../Misc/hosts ../Ansible/DB.yaml
 ansible-playbook -i ../Misc/hosts ../Ansible/WS.yaml 
 ansible-playbook -i ../Misc/hosts ../Ansible/C.yaml 
 
-echo "Our website can be accessed from client vm or any other machine created on open nebula VNET2 by going to: http://$WEB_IP:3000"
 echo "Our website is globally accessible from any machine with VU MIF VPN turned on by going to : http://$WEB_PUBLIC_IP:$EXTERNAL_PORT"
+
+echo "Our website also can be accessed from any machine created on open nebula VNET2 by using private ip: http://$WEB_IP:3000"
 
 
 exit 0
