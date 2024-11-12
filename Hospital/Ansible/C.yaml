@@ -3,7 +3,8 @@
     hosts: client
     become: true
     vars:
-      webserver_host: "{{ lookup('file', '../Misc/ws_ip') | trim }}"
+      webserver_ip: "{{ lookup('file', '../Misc/ws_ip') | trim }}"
+      webserver_host: "{{ lookup('file', '../Misc/ws_host') | trim }}"
   
     tasks:
       - name: Updating packages
@@ -33,7 +34,7 @@
   
       - name: Testing connection to hospitals webserver
         uri:
-          url: "http://{{ webserver_host }}:3000"
+          url: "http://{{ webserver_host }}:{{ webserver_host }}"
           return_content: yes
         register: web_response
         until: web_response.status == 200
