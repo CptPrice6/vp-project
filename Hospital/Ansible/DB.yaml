@@ -188,6 +188,9 @@
           volumes:
             - "{{ init_sql_file }}:/docker-entrypoint-initdb.d/init.sql"
           state: started
+        retries: 3
+        delay: 10
+        when: docker_pull is succeeded
 
       - name: Verify PostgreSQL container is running
         shell: docker ps --filter "name=my-postgres" --format "{{ '{{.Names}}' }}"
