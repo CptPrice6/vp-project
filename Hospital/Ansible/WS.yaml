@@ -65,14 +65,24 @@
         content: "{{ env_file_content }}"
         dest: /home/hospital-system/.env
         mode: '0644'
- 
+    
+    - name: Pre pull Node.js base image
+      command: docker pull node:14
+      ignore_errors: yes
+      retries: 3
+      delay: 10
+      register: docker_pull
+
     - name: Build Docker image
       command: docker build -t hospital-system .
       args:
         chdir: /home/hospital-system
       register: docker_build
       ignore_errors: yes
- 
+      retries: 3
+      delay: 10
+      when: docker_pull is succeeded
+
     - name: Run Docker container
       command: docker run -d -p 3000:3000 --name hospital-system --env-file /home/hospital-system/.env hospital-system
       register: docker_run
