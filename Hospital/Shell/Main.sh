@@ -112,6 +112,17 @@ ansible-playbook -i ../Misc/hosts ../Ansible/DB.yaml
 ansible-playbook -i ../Misc/hosts ../Ansible/WS.yaml 
 ansible-playbook -i ../Misc/hosts ../Ansible/C.yaml 
 
-echo "You can access our webserver by going : http://$WEB_PUBLIC_IP:$EXTERNAL_PORT"
+
+URL="http://$WEB_PUBLIC_IP:$EXTERNAL_PORT"
+http_code=$(curl -s -o /dev/null -w "%{http_code}" "$URL")
+
+# Check the HTTP status code
+if [ "$http_code" -eq 200 ]; then
+  echo "The webserver is globally accessible!"
+else
+  echo "Request failed with status code: $http_code"
+fi
+
+echo "You can access our webserver by going to : http://$WEB_PUBLIC_IP:$EXTERNAL_PORT"
 
 exit 0
