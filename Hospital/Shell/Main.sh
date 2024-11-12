@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#sudo apt update
+#sudo apt install gnupg
 #wget -q -O- https://downloads.opennebula.org/repo/repo.key | sudo apt-key add -
 #echo "deb [trusted=yes] https://downloads.opennebula.org/repo/5.6/Ubuntu/18.04 stable opennebula" | sudo tee /etc/apt/sources.list.d/opennebula.list
 #sudo apt update
