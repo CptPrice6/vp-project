@@ -204,17 +204,17 @@
 
       - name: Verify PostgreSQL container is running
         shell: docker ps --filter "name=postgres-container" --format "{{ '{{.Names}}' }}"
-        register: result
+        register: running_containers
         retries: 3
         delay: 10
-        until: result.stdout != ""
+        until: running_containers.stdout != ""
 
       - name: Debug PostgreSQL container name
         debug:
           var: running_containers.stdout
 
       - name: Display PostgreSQL container logs
-        shell: docker logs my-postgres
+        shell: docker logs postgres-container
         register: postgres_logs
         failed_when: false
 
