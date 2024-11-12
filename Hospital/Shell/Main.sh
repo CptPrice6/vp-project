@@ -51,6 +51,7 @@ sleep 50
 
 onevm show "$WEBVM_ID" --user "$WEB_USER" --password "$WEB_PASS" --endpoint "$ENDPOINT" > "$WEBVM_ID.txt"
 WEB_IP=$(grep PRIVATE_IP "$WEBVM_ID.txt" | cut -d '=' -f 2 | tr -d '"')
+WEB_PUBLIC_IP=$(grep PUBLIC_IP "$WEBVM_ID.txt" | cut -d '=' -f 2 | tr -d '"')
 rm "$WEBVM_ID.txt"
 printf "[webserver]\n$WEB_USER@$WEB_IP ansible_become_password=222\n\n" >> "../Misc/hosts"
 sshpass -p "$SUDO_PASS" ssh-copy-id -o StrictHostKeyChecking=no "$WEB_USER@$WEB_IP"
@@ -69,9 +70,48 @@ rm "$CLIENTVM_ID.txt"
 printf "[client]\n$CLIENT_USER@$CLIENT_IP ansible_become_password=222\n\n" >> ../Misc/hosts
 sshpass -p "$SUDO_PASS" ssh-copy-id -o StrictHostKeyChecking=no "$CLIENT_USER@$CLIENT_IP"
 
+PORT="3000"
+current_forwarding=$(ONE_XMLRPC="$ENDPOINT" onevm show "$WEBVM_ID" --user "$WEB_USER" --password "$WEB_PASS" --xml | xmllint --xpath "string(//TEMPLATE/TCP_PORT_FORWARDING)" - 2>/dev/null)
+
+if [ -z "$current_forwarding" ]; then
+  new_forwarding="$PORT"
+else
+  # Add the new port to the existing list
+  new_forwarding="${current_forwarding},$PORT"
+fi
+
+tmp_file="/tmp/vm_${WEBVM_ID}_update.txt"
+echo "TCP_PORT_FORWARDING=\"$new_forwarding\"" > "$tmp_file"
+
+ONE_XMLRPC="$ENDPOINT" onevm update "$WEBVM_ID" "$tmp_file" --user "$WEB_USER" --password "$WEB_PASS" --append
+echo "Adding port forwarding to web vm..."
+sleep 10
+
+if [ $? -eq 0 ]; then
+  echo "Successfully added port $PORT to TCP_PORT_FORWARDING for VM ID $VM_ID."
+else
+  echo "Failed to update TCP_PORT_FORWARDING for VM ID $VM_ID."
+  exit 1
+fi
+
+# Clean up temporary file
+rm -f "$tmp_file"
+
+echo "Rebooting the web vm for dynamic external port assignment"
+ONE_XMLRPC="$ENDPOINT" onevm poweroff "$WEBVM_ID" --user "$WEB_USER" --password "$WEB_PASS"
+sleep 15
+ONE_XMLRPC="$ENDPOINT" onevm resume "$WEBVM_ID" --user "$WEB_USER" --password "$WEB_PASS"
+sleep 25
+
+onevm show "$WEBVM_ID" --user "$WEB_USER" --password "$WEB_PASS" --endpoint "$ENDPOINT" > "$WEBVM_ID.txt"
+TCP_PORT_FORWARDING=$(grep TCP_PORT_FORWARDING "$WEBVM_ID.txt" | cut -d '=' -f 2 | tr -d '"')
+EXTERNAL_PORT=$(echo "$TCP_PORT_FORWARDING" | cut -d ':' -f 1)
+
 
 ansible-playbook -i ../Misc/hosts ../Ansible/DB.yaml 
 ansible-playbook -i ../Misc/hosts ../Ansible/WS.yaml 
 ansible-playbook -i ../Misc/hosts ../Ansible/C.yaml 
+
+echo "You can access our webserver by going : http://$WEB_PUBLIC_IP:$EXTERNAL_PORT"
 
 exit 0
