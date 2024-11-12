@@ -138,28 +138,28 @@
 
             -- Sample Data
             INSERT INTO public.patients (name, email, password, created_at) VALUES
-            ('Juozas', 'juozas@gmail.com', '$2b$10$FEUq/CNzKsC8VxmNbpxrYuY4qTZfYQFDnue6eSuIx6Uf/Fe7mku7.', '2024-11-05 13:23:59.220456'),
+            ('Juozas', 'juozas@gmail.com', '$2b$12$cxi0al.1cCPJFpC96gqcEuAHmq3gAsQPkZvKSW0AtVya1j4KBDC4i', '2024-11-05 13:23:59.220456'),
             ('Sandra', 'sandrute@gmail.com', '$2b$12$cxi0al.1cCPJFpC96gqcEuAHmq3gAsQPkZvKSW0AtVya1j4KBDC4i', '2024-11-12 15:24:25.125188'),
-            ('Saule', 'saule.giedraite@gmail.com', '$2b$12$.l8dr0AO5gCY73n3CEamEOrSpewWNwlqaXXNDisWP/4e3MqngSBCq', '2024-11-12 16:33:14.192538'),
-            ('Tomas', 'tomas.b@gmail.com', '$2b$12$plZPn4SO7t1nXprddQu7ouUIVMhr.Ubq6ktl.jxsFonIhv5Yf7Tgi', '2024-11-12 16:43:58.792344'),
-            ('Rokas', 'rokas2012@gmail.com', '$2b$12$RZvuzMxBKIf2YmZur85W3eAbogPIgvoqcCjLzAPvfQKQDKCLeLpSe', '2024-11-12 17:54:52.831223'),
-            ('Vanesa', 'vanessax@gmail.com', '$2b$12$8rMucC6DwtUiKdRESJyCeOVlqWjG2EXt0A5dUOLbnO8loapIpphkK', '2024-11-13 10:11:44.663372'),
-            ('Greta', 'gre.bun11@gmail.com', '$2b$12$/vGvV0UAZ6z8cWQ/8A7p5eLBJXQ9/JSbFG/4FJMQ.19F.G8Vamd4O', '2024-11-13 12:13:11.279166'),
-            ('Tomas', 'kimparas.tomas@gmail.com', '$2b$12$Sx.qcebKdwmUWbxrVTIIj.DXTHgNIBGbf1dbwT22V/l9dy8If8FMi', '2024-11-15 19:34:23.552871'),
-            ('Dominyka', 'domidomi@gmail.com', '$2b$12$OF0M2UV8BQDwmU3gb.4LiuBOTxEUrry9E4hJvsb5jYzIjSCNP.b9a', '2024-11-16 12:51:28.721193'),
-            ('Kipras', 'kipro900@gmail.com', '$2b$12$.uccpThhZDuT0DERZwpbA.8p0YNfFvubEH575ayfcUYv.C.7g7/Xa', '2024-11-16 14:12:12.592214'),
-            ('Vilius', 'vilius.m@gmail.com', '$2b$12$CKwYcXqI9yKfjYXtWTZ3da28d5HfsZtD61BQ.SBqdtp/NmNH0sP/W', '2024-11-16 15:22:47.741982'),
-            ('Egle', 'egle.bagdanskyte@gmail.com', '$2b$12$H2gT4VJS2V3sAPjl7Ndxq3.fQ9gHtvTuygZqbOht9fn39QYvDvfz6y', '2024-11-17 09:18:31.314522'),
-            ('Jurate', 'jurateverniene@gmail.com', '$2b$12$yR69LBPlqE7/IN7bFPkpCz7zjow9nYZdyXtgeYXjMI6aIVP5wdjHq', '2024-11-17 11:25:06.575168'),
-            ('Martynas', 'marcius.jo@gmail.com', '$2b$12$g0yNVG0Lg1GJHeIKD0Fl92eDZZNYkhVwEFZgoUBwZfFu/VvYY4Z7a', '2024-11-17 14:33:15.148738'),
-            ('Marius', 'gentvilas.marius@gmail.com', '$2b$12$HLWacjHbyXg7ZT3gMlDaECrL8iijrI5yzgvwz5fR2B3ZGhz1lh8Ru', '2024-11-17 16:42:53.983710');
+            ('Saule', 'saule.giedraite@gmail.com', '$2b$12$cxi0al.1cCPJFpC96gqcEuAHmq3gAsQPkZvKSW0AtVya1j4KBDC4i', '2024-11-12 16:33:14.192538'),
+            ('Tomas', 'tomas.b@gmail.com', '$2b$12$cxi0al.1cCPJFpC96gqcEuAHmq3gAsQPkZvKSW0AtVya1j4KBDC4i', '2024-11-12 16:43:58.792344'),
+            ('Rokas', 'rokas2012@gmail.com', '$2b$12$cxi0al.1cCPJFpC96gqcEuAHmq3gAsQPkZvKSW0AtVya1j4KBDC4i', '2024-11-12 17:54:52.831223'),
+            ('Vanesa', 'vanessax@gmail.com', '$2b$12$cxi0al.1cCPJFpC96gqcEuAHmq3gAsQPkZvKSW0AtVya1j4KBDC4i', '2024-11-13 10:11:44.663372'),
+            ('Greta', 'gre.bun11@gmail.com', '$2b$12$cxi0al.1cCPJFpC96gqcEuAHmq3gAsQPkZvKSW0AtVya1j4KBDC4i', '2024-11-13 12:13:11.279166'),
+            ('Tomas', 'kimparas.tomas@gmail.com', '$2b$12$cxi0al.1cCPJFpC96gqcEuAHmq3gAsQPkZvKSW0AtVya1j4KBDC4i', '2024-11-15 19:34:23.552871'),
+            ('Dominyka', 'domidomi@gmail.com', '$2b$12$cxi0al.1cCPJFpC96gqcEuAHmq3gAsQPkZvKSW0AtVya1j4KBDC4i', '2024-11-16 12:51:28.721193'),
+            ('Kipras', 'kipro900@gmail.com', '$2b$12$cxi0al.1cCPJFpC96gqcEuAHmq3gAsQPkZvKSW0AtVya1j4KBDC4i', '2024-11-16 14:12:12.592214'),
+            ('Vilius', 'vilius.m@gmail.com', '$2b$12$cxi0al.1cCPJFpC96gqcEuAHmq3gAsQPkZvKSW0AtVya1j4KBDC4i', '2024-11-16 15:22:47.741982'),
+            ('Egle', 'egle.bagdanskyte@gmail.com', '$2b$12$cxi0al.1cCPJFpC96gqcEuAHmq3gAsQPkZvKSW0AtVya1j4KBDC4i', '2024-11-17 09:18:31.314522'),
+            ('Jurate', 'jurateverniene@gmail.com', '$2b$12$cxi0al.1cCPJFpC96gqcEuAHmq3gAsQPkZvKSW0AtVya1j4KBDC4i', '2024-11-17 11:25:06.575168'),
+            ('Martynas', 'marcius.jo@gmail.com', '$2b$12$cxi0al.1cCPJFpC96gqcEuAHmq3gAsQPkZvKSW0AtVya1j4KBDC4i', '2024-11-17 14:33:15.148738'),
+            ('Marius', 'gentvilas.marius@gmail.com', '$2b$12$cxi0al.1cCPJFpC96gqcEuAHmq3gAsQPkZvKSW0AtVya1j4KBDC4i', '2024-11-17 16:42:53.983710');
 
 
             INSERT INTO public.doctors (name, email, password, specialty, schedule) VALUES
             ('Ignas', 'daktaras.ignas@gmail.com', '$2b$12$e.xifCG2uB4KEyDVpLs8a.jc4a/bei64ZppXJWIp13GYPJEY49FPq', 'Psychiatrist', NULL),
-            ('Indre', 'indresdarbo@gmail.com', '$2b$12$E4OhPUA4C/.WWx5Dh8.bf.qsBT3phTdepKSo3tHhF9WZjtuvXEz6q', 'Dermatologist', NULL),
-            ('Kristijanas', 'kristis1933@gmail.com', '$2b$12$f87nmdXU7.d23JGaRbHojefCh.QlbZbsoKY3CoOeITBZKulyAUJcW', 'Neurologist', NULL),
-            ('Danute', 'danute.laudiene@gmail.com', '$2b$12$Ghg9myWZdPfy06whkEyB3.JEehNGj74hjrsFEy4yX7WQAkijOT2eq', 'Radiologist', NULL);
+            ('Indre', 'indresdarbo@gmail.com', '$2b$12$e.xifCG2uB4KEyDVpLs8a.jc4a/bei64ZppXJWIp13GYPJEY49FPq', 'Dermatologist', NULL),
+            ('Kristijanas', 'kristis1933@gmail.com', '$2b$12$e.xifCG2uB4KEyDVpLs8a.jc4a/bei64ZppXJWIp13GYPJEY49FPq', 'Neurologist', NULL),
+            ('Danute', 'danute.laudiene@gmail.com', '$2b$12$e.xifCG2uB4KEyDVpLs8a.jc4a/bei64ZppXJWIp13GYPJEY49FPq', 'Radiologist', NULL);
 
 
             INSERT INTO public.appointments (patient_id, doctor_id, date, status) VALUES
