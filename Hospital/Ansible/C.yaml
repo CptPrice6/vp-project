@@ -4,7 +4,7 @@
     become: true
     vars:
       webserver_ip: "{{ lookup('file', '../Misc/ws_ip') | trim }}"
-      webserver_host: "{{ lookup('file', '../Misc/ws_host') | trim }}"
+      webserver_port: "{{ lookup('file', '../Misc/ws_port') | trim }}"
   
     tasks:
       - name: Updating packages
@@ -34,7 +34,7 @@
   
       - name: Testing connection to hospitals webserver
         uri:
-          url: "http://{{ webserver_ip }}:{{ webserver_host }}"
+          url: "http://{{ webserver_ip }}:{{ webserver_port }}"
           return_content: yes
         register: web_response
         until: web_response.status == 200
