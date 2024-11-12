@@ -34,7 +34,7 @@
   
       - name: Testing connection to hospitals webserver
         uri:
-          url: "http://{{ webserver_host }}:{{ webserver_host }}"
+          url: "http://{{ webserver_ip }}:{{ webserver_host }}"
           return_content: yes
         register: web_response
         until: web_response.status == 200
