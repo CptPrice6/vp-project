@@ -3,7 +3,7 @@
     hosts: client
     become: true
     vars:
-      webserver_host: "{{ lookup('file', 'ws_ip') | trim }}"
+      webserver_host: "{{ lookup('file', '../Misc/ws_ip') | trim }}"
   
     tasks:
       - name: Updating packages
