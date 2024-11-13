@@ -84,20 +84,20 @@ tmp_file="/tmp/vm_${WEBVM_ID}_update.txt"
 echo "TCP_PORT_FORWARDING=\"$new_forwarding\"" > "$tmp_file"
 
 ONE_XMLRPC="$ENDPOINT" onevm update "$WEBVM_ID" "$tmp_file" --user "$WEB_USER" --password "$WEB_PASS" --append
-echo "Adding port forwarding to web vm..."
+echo "Adding port forwarding to web VM..."
 sleep 10
 
 if [ $? -eq 0 ]; then
-  echo "Successfully added port $PORT to TCP_PORT_FORWARDING for VM ID $VM_ID."
+  echo "Successfully added port $PORT to TCP_PORT_FORWARDING for web VM"
 else
-  echo "Failed to update TCP_PORT_FORWARDING for VM ID $VM_ID."
+  echo "Failed to update TCP_PORT_FORWARDING for web VM"
   exit 1
 fi
 
 # Clean up temporary file
 rm -f "$tmp_file"
 
-echo "Rebooting the web vm for dynamic external port assignment"
+echo "Rebooting the web VM for dynamic external port assignment"
 ONE_XMLRPC="$ENDPOINT" onevm poweroff "$WEBVM_ID" --user "$WEB_USER" --password "$WEB_PASS"
 sleep 30
 ONE_XMLRPC="$ENDPOINT" onevm resume "$WEBVM_ID" --user "$WEB_USER" --password "$WEB_PASS"
