@@ -52,7 +52,6 @@ sleep 50
 onevm show "$WEBVM_ID" --user "$WEB_USER" --password "$WEB_PASS" --endpoint "$ENDPOINT" > "$WEBVM_ID.txt"
 WEB_IP=$(grep PRIVATE_IP "$WEBVM_ID.txt" | cut -d '=' -f 2 | tr -d '"')
 WEB_PUBLIC_IP=$(grep PUBLIC_IP "$WEBVM_ID.txt" | cut -d '=' -f 2 | tr -d '"')
-rm "$WEBVM_ID.txt"
 printf "[webserver]\n$WEB_USER@$WEB_IP ansible_become_password=222\n\n" >> "../Misc/hosts"
 sshpass -p "$SUDO_PASS" ssh-copy-id -o StrictHostKeyChecking=no "$WEB_USER@$WEB_IP"
 
@@ -71,13 +70,14 @@ printf "[client]\n$CLIENT_USER@$CLIENT_IP ansible_become_password=222\n\n" >> ..
 sshpass -p "$SUDO_PASS" ssh-copy-id -o StrictHostKeyChecking=no "$CLIENT_USER@$CLIENT_IP"
 
 PORT="3000"
-current_forwarding=$(ONE_XMLRPC="$ENDPOINT" onevm show "$WEBVM_ID" --user "$WEB_USER" --password "$WEB_PASS" --xml | xmllint --xpath "string(//TEMPLATE/TCP_PORT_FORWARDING)" - 2>/dev/null)
+CURRENT_FORWARDING=$(grep TCP_PORT_FORWARDING "$WEBVM_ID.txt" | cut -d '=' -f 2 | tr -d '"')
+rm "$WEBVM_ID.txt"
 
-if [ -z "$current_forwarding" ]; then
+if [ -z "$CURRENT_FORWARDING" ]; then
   new_forwarding="$PORT"
 else
   # Add the new port to the existing list
-  new_forwarding="${current_forwarding},$PORT"
+  new_forwarding="${CURRENT_FORWARDING} ${PORT}"
 fi
 
 tmp_file="/tmp/vm_${WEBVM_ID}_update.txt"
@@ -105,8 +105,8 @@ sleep 30
 
 onevm show "$WEBVM_ID" --user "$WEB_USER" --password "$WEB_PASS" --endpoint "$ENDPOINT" > "$WEBVM_ID.txt"
 TCP_PORT_FORWARDING=$(grep TCP_PORT_FORWARDING "$WEBVM_ID.txt" | cut -d '=' -f 2 | tr -d '"')
-EXTERNAL_PORT=$(echo "$TCP_PORT_FORWARDING" | cut -d ':' -f 1)
-
+EXTERNAL_PORT=$(echo "$TCP_PORT_FORWARDING" | tr ' ' '\n' | grep ':3000' | cut -d ':' -f 1)
+rm "$WEBVM_ID.txt"
 
 ansible-playbook -i ../Misc/hosts ../Ansible/DB.yaml 
 ansible-playbook -i ../Misc/hosts ../Ansible/WS.yaml 
