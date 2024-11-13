@@ -1,9 +1,9 @@
 [db]
-lipe0426@10.0.1.152 ansible_become_password=222
+lipe0426@ip ansible_become_password=222
 
 [webserver]
-dope0041@10.0.0.99 ansible_become_password=222
+dope0041@ip ansible_become_password=222
 
 [client]
-dama0451@10.0.0.131 ansible_become_password=222
+dama0451@ip ansible_become_password=222
 
