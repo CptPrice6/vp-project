@@ -16,7 +16,8 @@ rm ../Misc/hosts
 CLIENT_TEMPLATE="debian12-lxde"
 ENDPOINT="https://grid5.mif.vu.lt/cloud3/RPC2"
 
-ansible-vault view ../Misc/vault.yml --ask-vault-pass > decrypted_vault.yml
+ansible-vault view ../Misc/vault.yml --vault-password-file ../Misc/vault_pass > decrypted_vault.yml
+#ansible-vault view ../Misc/vault.yml --ask-vault-pass > decrypted_vault.yml
 
 #change to better method
 CLIENT_USER=$(grep 'CLIENT_USER:' decrypted_vault.yml | awk '{print $2}' | tr -d '"'| tr -s '[:space:]')
