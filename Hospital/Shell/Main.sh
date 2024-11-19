@@ -34,7 +34,7 @@ rm -f decrypted_vault.yaml
 DB_REZ=$(onetemplate instantiate "$CLIENT_TEMPLATE" --name "db-vm" --user "$DB_USER" --password "$DB_PASS" --endpoint "$ENDPOINT")
 DBVM_ID=$(echo $DB_REZ | cut -d ' ' -f 3)
 echo "Waiting for VM to start..."
-sleep 50
+sleep 100
 
 onevm show "$DBVM_ID" --user "$DB_USER" --password "$DB_PASS" --endpoint "$ENDPOINT" > "$DBVM_ID.txt"
 DB_IP=$(grep PRIVATE_IP "$DBVM_ID.txt" | cut -d '=' -f 2 | tr -d '"')
@@ -48,7 +48,7 @@ echo "$DB_IP" > ../Misc/db_ip
 WEB_REZ=$(onetemplate instantiate "$CLIENT_TEMPLATE" --name "webserver-vm" --user "$WEB_USER" --password "$WEB_PASS" --endpoint "$ENDPOINT")
 WEBVM_ID=$(echo $WEB_REZ | cut -d ' ' -f 3)
 echo "Waiting for VM to start..."
-sleep 50
+sleep 100
 
 onevm show "$WEBVM_ID" --user "$WEB_USER" --password "$WEB_PASS" --endpoint "$ENDPOINT" > "$WEBVM_ID.txt"
 WEB_IP=$(grep PRIVATE_IP "$WEBVM_ID.txt" | cut -d '=' -f 2 | tr -d '"')
@@ -62,7 +62,7 @@ echo "$WEB_IP" > ../Misc/ws_ip
 CLIENT_REZ=$(onetemplate instantiate "$CLIENT_TEMPLATE" --name "client-vm" --user "$CLIENT_USER" --password "$CLIENT_PASS" --endpoint "$ENDPOINT")
 CLIENTVM_ID=$(echo $CLIENT_REZ | cut -d ' ' -f 3)
 echo "Waiting for VM to start..."
-sleep 50
+sleep 100
 
 onevm show "$CLIENTVM_ID" --user "$CLIENT_USER" --password "$CLIENT_PASS" --endpoint "$ENDPOINT" > "$CLIENTVM_ID.txt"
 CLIENT_IP=$(grep PRIVATE_IP "$CLIENTVM_ID.txt" | cut -d '=' -f 2 | tr -d '"')
@@ -95,9 +95,9 @@ rm -f "$tmp_file"
 
 echo "Rebooting the web VM for dynamic external port assignment"
 ONE_XMLRPC="$ENDPOINT" onevm poweroff "$WEBVM_ID" --user "$WEB_USER" --password "$WEB_PASS"
-sleep 30
+sleep 50
 ONE_XMLRPC="$ENDPOINT" onevm resume "$WEBVM_ID" --user "$WEB_USER" --password "$WEB_PASS"
-sleep 30
+sleep 50
 
 onevm show "$WEBVM_ID" --user "$WEB_USER" --password "$WEB_PASS" --endpoint "$ENDPOINT" > "$WEBVM_ID.txt"
 TCP_PORT_FORWARDING=$(grep TCP_PORT_FORWARDING "$WEBVM_ID.txt" | cut -d '=' -f 2 | tr -d '"')
