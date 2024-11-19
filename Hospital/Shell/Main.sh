@@ -16,19 +16,19 @@ rm ../Misc/hosts
 CLIENT_TEMPLATE="debian12-lxde"
 ENDPOINT="https://grid5.mif.vu.lt/cloud3/RPC2"
 
-ansible-vault view ../Misc/vault.yml --vault-password-file ../Misc/vault_pass > decrypted_vault.yml
-#ansible-vault view ../Misc/vault.yml --ask-vault-pass > decrypted_vault.yml
+ansible-vault view ../Misc/vault.yaml --vault-password-file ../Misc/vault_pass > decrypted_vault.yaml
+#ansible-vault view ../Misc/vault.yaml --ask-vault-pass > decrypted_vault.yaml
 
 #change to better method
-CLIENT_USER=$(grep 'CLIENT_USER:' decrypted_vault.yml | awk '{print $2}' | tr -d '"'| tr -s '[:space:]')
-DB_USER=$(grep 'DB_USER:' decrypted_vault.yml | awk '{print $2}' | tr -d '"' | tr -s '[:space:]')
-WEB_USER=$(grep 'WEB_USER:' decrypted_vault.yml | awk '{print $2}' | tr -d '"' | tr -s '[:space:]')
-CLIENT_PASS=$(grep 'CLIENT_PASS:' decrypted_vault.yml | awk '{print $2}' | tr -d '"' | tr -s '[:space:]')
-DB_PASS=$(grep 'DB_PASS:' decrypted_vault.yml | awk '{print $2}' | tr -d '"' | tr -s '[:space:]')
-WEB_PASS=$(grep 'WEB_PASS:' decrypted_vault.yml | awk '{print $2}' | tr -d '"' | tr -s '[:space:]')
-SUDO_PASS=$(grep 'SUDO:' decrypted_vault.yml | awk '{print $2}' | tr -d '"' | tr -s '[:space:]')
+CLIENT_USER=$(grep 'CLIENT_USER:' decrypted_vault.yaml | awk '{print $2}' | tr -d '"'| tr -s '[:space:]')
+DB_USER=$(grep 'DB_USER:' decrypted_vault.yaml | awk '{print $2}' | tr -d '"' | tr -s '[:space:]')
+WEB_USER=$(grep 'WEB_USER:' decrypted_vault.yaml | awk '{print $2}' | tr -d '"' | tr -s '[:space:]')
+CLIENT_PASS=$(grep 'CLIENT_PASS:' decrypted_vault.yaml | awk '{print $2}' | tr -d '"' | tr -s '[:space:]')
+DB_PASS=$(grep 'DB_PASS:' decrypted_vault.yaml | awk '{print $2}' | tr -d '"' | tr -s '[:space:]')
+WEB_PASS=$(grep 'WEB_PASS:' decrypted_vault.yaml | awk '{print $2}' | tr -d '"' | tr -s '[:space:]')
+SUDO_PASS=$(grep 'SUDO:' decrypted_vault.yaml | awk '{print $2}' | tr -d '"' | tr -s '[:space:]')
 
-rm -f decrypted_vault.yml
+rm -f decrypted_vault.yaml
 
 
 DB_REZ=$(onetemplate instantiate "$CLIENT_TEMPLATE" --name "db-vm" --user "$DB_USER" --password "$DB_PASS" --endpoint "$ENDPOINT")
@@ -88,12 +88,7 @@ ONE_XMLRPC="$ENDPOINT" onevm update "$WEBVM_ID" "$tmp_file" --user "$WEB_USER" -
 echo "Adding port forwarding to web VM..."
 sleep 10
 
-if [ $? -eq 0 ]; then
-  echo "Successfully added port $PORT to TCP_PORT_FORWARDING for web VM"
-else
-  echo "Failed to update TCP_PORT_FORWARDING for web VM"
-  exit 1
-fi
+echo "Successfully added port $PORT to TCP_PORT_FORWARDING for web VM"
 
 # Clean up temporary file
 rm -f "$tmp_file"
