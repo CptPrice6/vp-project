@@ -20,13 +20,13 @@ ENDPOINT="https://grid5.mif.vu.lt/cloud3/RPC2"
 ansible-vault view ../Misc/vault.yaml --vault-password-file ../Misc/vault_pass > decrypted_vault.yaml
 #ansible-vault view ../Misc/vault.yaml --ask-vault-pass > decrypted_vault.yaml
 
-CLIENT_USER=$(yq '.CLIENT_USER' decrypted_vault.yml | sed -e 's/^"//' -e 's/"$//')
-DB_USER=$(yq '.DB_USER' decrypted_vault.yml | sed -e 's/^"//' -e 's/"$//')
-WEB_USER=$(yq '.WEB_USER' decrypted_vault.yml | sed -e 's/^"//' -e 's/"$//')
-CLIENT_PASS=$(yq '.CLIENT_PASS' decrypted_vault.yml | sed -e 's/^"//' -e 's/"$//')
-DB_PASS=$(yq '.DB_PASS' decrypted_vault.yml | sed -e 's/^"//' -e 's/"$//')
-WEB_PASS=$(yq '.WEB_PASS' decrypted_vault.yml | sed -e 's/^"//' -e 's/"$//')
-SUDO_PASS=$(yq '.SUDO' decrypted_vault.yml | sed -e 's/^"//' -e 's/"$//')
+CLIENT_USER=$(yq '.CLIENT_USER' decrypted_vault.yaml | sed -e 's/^"//' -e 's/"$//')
+DB_USER=$(yq '.DB_USER' decrypted_vault.yaml | sed -e 's/^"//' -e 's/"$//')
+WEB_USER=$(yq '.WEB_USER' decrypted_vault.yaml | sed -e 's/^"//' -e 's/"$//')
+CLIENT_PASS=$(yq '.CLIENT_PASS' decrypted_vault.yaml | sed -e 's/^"//' -e 's/"$//')
+DB_PASS=$(yq '.DB_PASS' decrypted_vault.yaml | sed -e 's/^"//' -e 's/"$//')
+WEB_PASS=$(yq '.WEB_PASS' decrypted_vault.yaml | sed -e 's/^"//' -e 's/"$//')
+SUDO_PASS=$(yq '.SUDO' decrypted_vault.yaml | sed -e 's/^"//' -e 's/"$//')
 
 rm -f decrypted_vault.yaml
 
