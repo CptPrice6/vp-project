@@ -1,11 +1,12 @@
 #!/bin/bash
 
 #sudo apt update
-#sudo apt install gnupg
+#sudo apt install -y gnupg
 #wget -q -O- https://downloads.opennebula.org/repo/repo.key | sudo apt-key add -
 #echo "deb [trusted=yes] https://downloads.opennebula.org/repo/5.6/Ubuntu/18.04 stable opennebula" | sudo tee /etc/apt/sources.list.d/opennebula.list
 #sudo apt update
 
+#sudo apt install -y yq
 #sudo apt install -y opennebula-tools
 #sudo apt install -y ansible
 #sudo apt install -y sshpass
@@ -19,14 +20,13 @@ ENDPOINT="https://grid5.mif.vu.lt/cloud3/RPC2"
 ansible-vault view ../Misc/vault.yaml --vault-password-file ../Misc/vault_pass > decrypted_vault.yaml
 #ansible-vault view ../Misc/vault.yaml --ask-vault-pass > decrypted_vault.yaml
 
-#change to better method
-CLIENT_USER=$(grep 'CLIENT_USER:' decrypted_vault.yaml | awk '{print $2}' | tr -d '"'| tr -s '[:space:]')
-DB_USER=$(grep 'DB_USER:' decrypted_vault.yaml | awk '{print $2}' | tr -d '"' | tr -s '[:space:]')
-WEB_USER=$(grep 'WEB_USER:' decrypted_vault.yaml | awk '{print $2}' | tr -d '"' | tr -s '[:space:]')
-CLIENT_PASS=$(grep 'CLIENT_PASS:' decrypted_vault.yaml | awk '{print $2}' | tr -d '"' | tr -s '[:space:]')
-DB_PASS=$(grep 'DB_PASS:' decrypted_vault.yaml | awk '{print $2}' | tr -d '"' | tr -s '[:space:]')
-WEB_PASS=$(grep 'WEB_PASS:' decrypted_vault.yaml | awk '{print $2}' | tr -d '"' | tr -s '[:space:]')
-SUDO_PASS=$(grep 'SUDO:' decrypted_vault.yaml | awk '{print $2}' | tr -d '"' | tr -s '[:space:]')
+CLIENT_USER=$(yq '.CLIENT_USER' decrypted_vault.yml | sed -e 's/^"//' -e 's/"$//')
+DB_USER=$(yq '.DB_USER' decrypted_vault.yml | sed -e 's/^"//' -e 's/"$//')
+WEB_USER=$(yq '.WEB_USER' decrypted_vault.yml | sed -e 's/^"//' -e 's/"$//')
+CLIENT_PASS=$(yq '.CLIENT_PASS' decrypted_vault.yml | sed -e 's/^"//' -e 's/"$//')
+DB_PASS=$(yq '.DB_PASS' decrypted_vault.yml | sed -e 's/^"//' -e 's/"$//')
+WEB_PASS=$(yq '.WEB_PASS' decrypted_vault.yml | sed -e 's/^"//' -e 's/"$//')
+SUDO_PASS=$(yq '.SUDO' decrypted_vault.yml | sed -e 's/^"//' -e 's/"$//')
 
 rm -f decrypted_vault.yaml
 
@@ -77,7 +77,6 @@ rm "$WEBVM_ID.txt"
 if [ -z "$CURRENT_FORWARDING" ]; then
   new_forwarding="$PORT"
 else
-  # Add the new port to the existing list
   new_forwarding="${CURRENT_FORWARDING} ${PORT}"
 fi
 
@@ -90,7 +89,7 @@ sleep 10
 
 echo "Successfully added port $PORT to TCP_PORT_FORWARDING for web VM"
 
-# Clean up temporary file
+
 rm -f "$tmp_file"
 
 echo "Rebooting the web VM for dynamic external port assignment"
